@@ -48,17 +48,12 @@ namespace Youpload.Forms
             Hide();                  
         }
 
-        private void ShowNotification( string text, bool useBallonTip = true)
+        private void ShowNotification( string text, bool useBallonTip = false)
         {
+            //For some reason, ShowBallonTip isn't working on all machines
             if( useBallonTip )
-            {
-                notifyIcon.Icon = this.Icon;
-                notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
-                notifyIcon.Visible = true;
-                notifyIcon.Text = text;
-                notifyIcon.BalloonTipTitle = "Youpload";
-                notifyIcon.BalloonTipText = text;
-                notifyIcon.ShowBalloonTip(10000);                
+            {       
+                notifyIcon.ShowBalloonTip(10000,"Youpload",text,ToolTipIcon.Info);                
             }
             else
             {

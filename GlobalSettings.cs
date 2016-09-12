@@ -8,16 +8,17 @@ namespace Youpload
     public class GlobalSettings
     {
         private const string AppName = "Youpload";
+        
+        private static HotkeyInfo DefaultAreaHotkey = new HotkeyInfo(System.Windows.Forms.Keys.D3, true, true, false, false);
+        private static HotkeyInfo DefaultClipboardHotkey = new HotkeyInfo(System.Windows.Forms.Keys.D4, true, true, false, false);
 
-        [JsonIgnore]
-        static HotkeyInfo DefaultAreaHotkey = new HotkeyInfo(System.Windows.Forms.Keys.D3, true, true, false, false);
-        [JsonIgnore]
-        static HotkeyInfo DefaultClipboardHotkey = new HotkeyInfo(System.Windows.Forms.Keys.D4, true, true, false, false);
         private static string DefaultPersonnalFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), AppName);
         private static string SettingsFile = Path.Combine(DefaultPersonnalFolder, "Settings.json");
-                
+
         [JsonIgnore]
+        //This is the url used for upload, the server used for youpload send back a link to the upload.
         public readonly string UploadUrl = "";
+
 
         public string PersonnalFolder;
         public HotkeyInfo AreaHotkey;
