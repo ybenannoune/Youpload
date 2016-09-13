@@ -57,7 +57,7 @@ namespace Youpload.Forms
             }
             else
             {
-                NotificationForm.Show(1000, 300, ContentAlignment.BottomRight, global::Youpload.Properties.Resources.info_outline, text);
+                NotificationForm.Show(3000, 1000, ContentAlignment.BottomRight, global::Youpload.Properties.Resources.info_outline, text);
             }           
         }
 
@@ -97,7 +97,10 @@ namespace Youpload.Forms
             if (UploadHelper.UploadFile(Program.globalSetting.UploadUrl, path,ref reponse))
             {
                 string str = Encoding.UTF8.GetString(reponse);
-                UploadStatus upload = JsonConvert.DeserializeObject<UploadStatus>(str);             
+                UploadStatus upload = JsonConvert.DeserializeObject<UploadStatus>(str);
+
+                //Add sound to notify upload
+                System.Media.SystemSounds.Hand.Play();
 
                 if ( upload.status == UploadStatus.STATUS_OK)
                 {
