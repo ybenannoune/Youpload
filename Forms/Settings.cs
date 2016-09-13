@@ -49,31 +49,32 @@ namespace Youpload.Forms
         }
 
         private void btn_runStartup_Click(object sender, EventArgs e)
-        {        
-            //  The added registry key isn't working
-
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-            bool isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
-
-            if (isElevated)
-            {
-                RegistryKey rkApp = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        {
+            //WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            //WindowsPrincipal principal = new WindowsPrincipal(identity);
+            //bool isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
+          
+            //Don't need to be elevated for CurrentUser
+                 
+            //if (isElevated)
+            //{
+                // The path to the key where Windows looks for startup applications
+                RegistryKey rkApp = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
                 if (rkApp.GetValue("Youpload") != null)
                 {
                     rkApp.DeleteValue("Youpload", false);
-                    MessageBox.Show("Youpload entry is deleted!");
+                    MessageBox.Show("Youpload run at startup disabled.");
                 }
                 else
                 {
-                    rkApp.SetValue("Youpload", Application.ExecutablePath);
-                    MessageBox.Show("Youpload entry has been added");
+                    rkApp.SetValue("Youpload", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    MessageBox.Show("Youpload run at startup enabled.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please restart the application with admin rights");
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Please restart the application with admin rights");
+            //}
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Youpload
         //This is the url used for upload, the server used for youpload send back a link to the upload.
         public readonly string UploadUrl = "";
 
-
         public string PersonnalFolder;
         public HotkeyInfo AreaHotkey;
         public HotkeyInfo ClipboardHotkey;

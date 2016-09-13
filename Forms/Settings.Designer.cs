@@ -105,11 +105,11 @@
             // 
             // btn_runStartup
             // 
-            this.btn_runStartup.Location = new System.Drawing.Point(260, 102);
+            this.btn_runStartup.Location = new System.Drawing.Point(150, 102);
             this.btn_runStartup.Name = "btn_runStartup";
-            this.btn_runStartup.Size = new System.Drawing.Size(100, 23);
+            this.btn_runStartup.Size = new System.Drawing.Size(210, 23);
             this.btn_runStartup.TabIndex = 7;
-            this.btn_runStartup.Text = "Run at startup";
+            this.btn_runStartup.Text = "Enable/Disable run at startup";
             this.btn_runStartup.UseVisualStyleBackColor = true;
             this.btn_runStartup.Click += new System.EventHandler(this.btn_runStartup_Click);
             // 
