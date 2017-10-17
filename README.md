@@ -1,5 +1,5 @@
 # Youpload
-A simple tool to upload screenshots based on ShareX library
+A simple tool to upload screenshots based on ShareX library, available here at http://youpload.cornat.co/
 
 ## Features
 
@@ -7,7 +7,3 @@ A simple tool to upload screenshots based on ShareX library
 * Capture FullScreen
 * Upload Clipboard
 * Upload File
-
-## Available here
-
-http://youpload.cornat.co/
