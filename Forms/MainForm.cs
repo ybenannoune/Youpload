@@ -1,28 +1,45 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using Youpload.Hotkeys;
 using ShareX.ScreenCaptureLib;
 using ShareX.HelpersLib;
+using ShareX;
+using System.Net;
+using System.IO;
+using MovablePython;
 
 namespace Youpload.Forms
-{
+{  
     public partial class MainForm : Form
     {
-        //Hotkeys
-        private GlobalHotkey m_HotkeyAreaScreenshot;
-        private GlobalHotkey m_HotkeyClipBoard;
+        //
+        private readonly int MAX_HISTORY = 10;
 
-        //Image Settings
+        //Hotkeys
+        private Hotkey m_HotkeyAreaScreenshot;
+        private Hotkey m_HotkeyClipBoard;
+        private RegionCaptureTransparentForm rectangleTransparent;
+
+        class UploadStatus
+        {
+            public enum UPLOAD_STATUS
+            {
+                OK = 200,
+                ERROR = 500
+            }
+
+            public UploadStatus.UPLOAD_STATUS status { get; set; }
+            public string data { get; set; }
+        }
+
         private ImageTools.ImageSettings m_ImageSettings = new ImageTools.ImageSettings()
         {
-             ImageFormat = EImageFormat.PNG,
-             ImageJPEGQuality = 80,
-             ImageAutoUseJPEG = true,
-             ImageAutoUseJPEGSize = 150 //kilo-bytes
+            ImageFormat = EImageFormat.PNG,
+            ImageJPEGQuality = 80,
+            ImageAutoUseJPEG = true,
+            ImageAutoUseJPEGSize = 150 //kilo-bytes
         };
         private Screenshot m_ScreenshotSettings = new Screenshot()
         {
@@ -37,36 +54,16 @@ namespace Youpload.Forms
         public MainForm()
         {
             InitializeComponent();
-
-            notifyIcon.Visible = true;
+            notifyIcon.Visible = true;    
             notifyIcon.Icon = this.Icon;
-        }        
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {          
             RegisterHotKeys();
-            Hide();                  
+            Hide();
         }
-
-        private void ShowNotification( string text, bool useBallonTip = false)
-        {
-            //For some reason, ShowBallonTip isn't working on all machines
-            if( useBallonTip )
-            {       
-                notifyIcon.ShowBalloonTip(10000,"Youpload",text,ToolTipIcon.Info);                
-            }
-            else
-            {
-                NotificationForm.Show(3000, 1000, ContentAlignment.BottomRight, global::Youpload.Properties.Resources.info_outline, text);
-            }           
-        }
-
-        #region HotKeysRegistering
 
         private void RegisterHotKeys()
         {
-            m_HotkeyAreaScreenshot = new GlobalHotkey(Program.globalSetting.AreaHotkey);
-            m_HotkeyAreaScreenshot.Pressed += Hk_AreaScreenshot;
+            m_HotkeyAreaScreenshot = new Hotkey(Program.youploadSettings.AreaHotkey.Hotkey);
+            m_HotkeyAreaScreenshot.Pressed += captureAreaToolStripMenuItem_Click;
             if (!m_HotkeyAreaScreenshot.GetCanRegister(this))
             {
                 Console.WriteLine("Already registered");
@@ -76,9 +73,8 @@ namespace Youpload.Forms
                 m_HotkeyAreaScreenshot.Register(this);
             }
 
-            
-            m_HotkeyClipBoard = new GlobalHotkey(Program.globalSetting.ClipboardHotkey);
-            m_HotkeyClipBoard.Pressed += Hk_ClipBoard;
+            m_HotkeyClipBoard = new Hotkey(Program.youploadSettings.ClipboardHotkey.Hotkey);
+            m_HotkeyClipBoard.Pressed += sendClipboardToolStripMenuItem1_Click;
             if (!m_HotkeyClipBoard.GetCanRegister(this))
             {
                 Console.WriteLine("Already registered");
@@ -86,134 +82,49 @@ namespace Youpload.Forms
             else
             {
                 m_HotkeyClipBoard.Register(this);
-            }            
-        }   
+            }
+        }
 
-        #endregion
+       
+        private void toolStripMenuHistory_Click(object sender, EventArgs e)
+        {
+            ToolStripItem item = (ToolStripItem)sender;
+            Clipboard.SetText(item.Text);
+        }
 
-        private void UploadFile(string path)
-        {       
-            byte[] reponse = null;
-            if (UploadHelper.UploadFile(Program.globalSetting.UploadUrl, path,ref reponse))
+        private void pushIntoHistory(Image data, string text)
+        {
+            if (toolStripMenuHistory.DropDownItems.Count > MAX_HISTORY)
+                toolStripMenuHistory.DropDownItems.RemoveAt(0);
+
+            toolStripMenuHistory.DropDownItems.Add(text, data, new EventHandler(toolStripMenuHistory_Click));
+        }
+
+        private void UploadFile(string uploadUrl,string filePath, bool fileIsImage = false)
+        {
+            Image notifImage = (fileIsImage == true) ? Image.FromFile(filePath) : Properties.Resources.publications_clipboard;
+            String notifText = "No response from server";
+            using (var webClient = new WebClient())
             {
-                string str = Encoding.UTF8.GetString(reponse);
-                UploadStatus upload = JsonConvert.DeserializeObject<UploadStatus>(str);
-
-                //Add sound to notify upload
-                System.Media.SystemSounds.Hand.Play();
-
-                if ( upload.status == UploadStatus.STATUS_OK)
+                try
                 {
-                    ClipboardHelper.WriteUrl(upload.data);
-                    ShowNotification(upload.data);    
+                    byte[] reponse = webClient.UploadFile(uploadUrl, filePath);
+                    string str = Encoding.UTF8.GetString(reponse);
+                    UploadStatus uploadStatus = JsonConvert.DeserializeObject<UploadStatus>(str);             
+                    notifText = uploadStatus.data.ToString();
+                    Clipboard.SetText(uploadStatus.data);
                 }
-                else if(upload.status == UploadStatus.STATUS_ERROR)
+                catch
                 {
-                    ShowNotification("Upload failed reason :" + upload.data);                   
-                }                
-            }
-            else
-            {
-                ShowNotification("No response from server");         
-            }    
-        }
-                
-        private void SendClipBoard()
-        {
-            string clipBoardContent = Clipboard.GetText();
-            if (!string.IsNullOrEmpty(clipBoardContent))
-            {
-                string filePath = Program.globalSetting.PersonnalFolder + "\\Clipboards\\" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".txt";
-                Helpers.CreateDirectoryFromFilePath(filePath);
-                System.IO.File.WriteAllText(filePath, clipBoardContent);        
-                UploadFile(filePath);
-            }
-            else
-            {
-                ShowNotification("Your clipboard is not a string or empty");               
-            }
-        }
-
-        private void ScreenshotDone(Image img)
-        {
-            if (img != null)
-            {
-                ImageData imageData = ImageTools.PrepareImage(img, m_ImageSettings);
-
-                string filePath = Program.globalSetting.PersonnalFolder + "\\Screenshots\\" +  DateTime.Now.ToString("yyyyMMdd-HHmmss") + "." + imageData.ImageFormat.ToString().ToLower();
-
-                bool imageSaved = imageData.Write(filePath);
-
-                if (imageSaved)
-                {
-                    UploadFile(filePath);
+            
                 }
-            }
+                webClient.Dispose();
+            }                  
+           
+            NativeMethods.ShowWindow(new NotificationForm(notifImage, notifText).Handle, (int)WindowShowStyle.ShowNoActivate);
+            pushIntoHistory(notifImage, notifText);
         }
-
-        private void ScreenshotArea()
-        {       
-            using (RegionCaptureTransparentForm rectangleTransparent = new RegionCaptureTransparentForm())
-            {
-                if (rectangleTransparent.ShowDialog() == DialogResult.OK)
-                {
-                    Image img = rectangleTransparent.GetAreaImage(m_ScreenshotSettings);            
-                    ScreenshotDone(img);
-                }
-            }
-        }
-        
-
-        #region HotkeysEvents
-
-        private void Hk_AreaScreenshot(object sender, HandledEventArgs handledEventArgs)
-        {
-            ScreenshotArea();
-        }
-
-        private void Hk_ClipBoard(object sender, HandledEventArgs handledEventArgs)
-        {
-            SendClipBoard();
-        }
-
-        #endregion
-        
-
-        #region ToolSriptMenuEvents
-        
-        private void areaScreenshotToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ScreenshotArea();
-        }
-        
-        private void sendClipBoardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SendClipBoard();
-        }
-   
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void uploadFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.RestoreDirectory = true;
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                UploadFile(fileDialog.FileName);
-            }
-        }
-
-        private void fullScreenshotToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Image img = m_ScreenshotSettings.CaptureFullscreen();          
-            if (img != null)
-            {
-                ScreenshotDone(img);
-            }
-        }
+         
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -222,20 +133,91 @@ namespace Youpload.Forms
             m_HotkeyClipBoard.Unregister();
 
             //Show settings form
-            new Settings().ShowDialog();
+            new SettingsForm().ShowDialog();
 
             //Update current hotkeys
-            m_HotkeyAreaScreenshot.UpdateHotkey(Program.globalSetting.AreaHotkey);
-            m_HotkeyClipBoard.UpdateHotkey(Program.globalSetting.ClipboardHotkey);
+            m_HotkeyAreaScreenshot.KeyCode = Program.youploadSettings.AreaHotkey.KeyCode;
+            m_HotkeyClipBoard.KeyCode = Program.youploadSettings.ClipboardHotkey.KeyCode;
 
             //Reenable hotkeys
             m_HotkeyAreaScreenshot.Register(this);
             m_HotkeyClipBoard.Register(this);
 
             //Save
-            Program.globalSetting.SaveSettings();
+            Program.youploadSettings.SaveSettings();
         }
 
-        #endregion  
+        private void ScreenshotDone(Image img)
+        {
+            if (img != null)
+            {
+                ImageData imageData = ImageTools.PrepareImage(img, m_ImageSettings);
+                string filePath = Program.youploadSettings.PersonnalFolder + "\\Screenshots\\" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + "." + imageData.ImageFormat.ToString().ToLower();
+                bool imageSaved = imageData.Write(filePath);
+                if (imageSaved)
+                {
+                    UploadFile(Program.youploadSettings.UploadUrl,filePath,true);               
+                }
+            }
+        }
+
+        private void captureDesktopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Image img = m_ScreenshotSettings.CaptureFullscreen();
+            if (img != null)
+            {
+                ScreenshotDone(img);
+            }
+        }
+
+        private void uploadFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.RestoreDirectory = true;
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                UploadFile(Program.youploadSettings.UploadUrl, fileDialog.FileName);               
+            }
+        }
+
+        private void sendClipboardToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string clipBoardContent = Clipboard.GetText();
+            if (!string.IsNullOrEmpty(clipBoardContent))
+            {
+                string filePath = Program.youploadSettings.PersonnalFolder + "\\Clipboards\\" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".txt";
+                Helpers.CreateDirectoryFromFilePath(filePath);
+                File.WriteAllText(filePath, clipBoardContent);
+                UploadFile(Program.youploadSettings.UploadUrl, filePath);               
+            }
+            else
+            {
+                NativeMethods.ShowWindow(new NotificationForm(Properties.Resources.publications_clipboard, "No textual clipboard available").Handle, (int)WindowShowStyle.ShowNoActivate);
+            }
+        }      
+
+        private void captureAreaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(rectangleTransparent == null)
+            {
+                using (rectangleTransparent = new RegionCaptureTransparentForm())
+                {
+                    if (rectangleTransparent.ShowDialog() == DialogResult.OK)
+                    {
+                        Image img = rectangleTransparent.GetAreaImage(m_ScreenshotSettings);
+                        ScreenshotDone(img);
+                    }
+                }
+                rectangleTransparent.Dispose();
+                rectangleTransparent = null;
+            }        
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_HotkeyAreaScreenshot.Unregister();
+            m_HotkeyClipBoard.Unregister();
+            Application.Exit();
+        }
     }
 }

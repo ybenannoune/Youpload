@@ -1,42 +1,42 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 using Youpload.Forms;
 
 namespace Youpload
 {
     static class Program
     {
-        public static GlobalSettings globalSetting;
+        public static YouploadSettings youploadSettings;
         private static Mutex singleInstanceMutex;
 
         private static void SetupPersonalFolder()
         {
-            if (!Directory.Exists(globalSetting.PersonnalFolder))
+            if (!Directory.Exists(youploadSettings.PersonnalFolder))
             {
                 try
                 {
-                    Directory.CreateDirectory(globalSetting.PersonnalFolder);
+                    Directory.CreateDirectory(youploadSettings.PersonnalFolder);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Unable to create custom folder" + string.Format(" \"{0}\"\r\n\r\n{1}", globalSetting.PersonnalFolder, e),
-                        "Youplad", MessageBoxButtons.OK, MessageBoxIcon.Error);           
+                    MessageBox.Show("Unable to create custom folder" + string.Format(" \"{0}\"\r\n\r\n{1}", youploadSettings.PersonnalFolder, e),
+                        "Youplad", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }        
+        }
 
         private static void Run()
         {
-            globalSetting = new GlobalSettings();
-            globalSetting.LoadSettings();
+            youploadSettings = new YouploadSettings();
+            youploadSettings.LoadSettings();
 
-            SetupPersonalFolder();   
+            SetupPersonalFolder();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());                        
+            Application.Run(new MainForm());
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Youpload
             {
                 singleInstanceMutex = new Mutex(true, application_name);
                 Run();
-            }            
+            }
         }
     }
 }

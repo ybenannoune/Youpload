@@ -1,0 +1,790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShareX.ScreenCaptureLib</RootNamespace>
+    <AssemblyName>ShareX.ScreenCaptureLib</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Steam|AnyCPU'">
+    <OutputPath>bin\Steam\</OutputPath>
+    <DefineConstants>TRACE;STEAM</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WindowsStore|AnyCPU'">
+    <OutputPath>bin\WindowsStore\</OutputPath>
+    <DefineConstants>TRACE;WindowsStore</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WindowsStoreDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\WindowsStoreDebug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WindowsStore</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Animations\BaseAnimation.cs" />
+    <Compile Include="Animations\PointAnimation.cs" />
+    <Compile Include="Animations\RectangleAnimation.cs" />
+    <Compile Include="Forms\CanvasSizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CanvasSizeForm.Designer.cs">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditorStartupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditorStartupForm.Designer.cs">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ImageInsertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageInsertForm.Designer.cs">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\NewImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewImageForm.Designer.cs">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ImageSizeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImageSizeForm.Designer.cs">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StickerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StickerForm.Designer.cs">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StickerImageListViewRenderer.cs" />
+    <Compile Include="Forms\StickerPackForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StickerPackForm.Designer.cs">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegionHelpers\ImageEditorButton.cs" />
+    <Compile Include="RegionHelpers\ImageEditorScrollbar.cs" />
+    <Compile Include="RegionHelpers\ScrollbarManager.cs" />
+    <Compile Include="Shapes\AnnotationOptions.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Forms\RegionCaptureTransparentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScrollingCaptureForm.Designer.cs">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TextDrawingInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TextDrawingInputBox.Designer.cs">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Animations\ColorBlinkAnimation.cs" />
+    <Compile Include="Animations\OpacityAnimation.cs" />
+    <Compile Include="Shapes\BaseShape.cs" />
+    <Compile Include="Shapes\Drawing\ArrowDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\SmartEraserDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\ImageFileDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\MagnifyDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\StickerDrawingShape.cs" />
+    <Compile Include="Shapes\StickerPackInfo.cs" />
+    <Compile Include="Shapes\Tool\BaseTool.cs" />
+    <Compile Include="Shapes\Tool\CropTool.cs" />
+    <Compile Include="Shapes\Drawing\CursorDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\ImageScreenDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\SpeechBalloonDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\BaseDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\FreehandDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\ImageDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\StepDrawingShape.cs" />
+    <Compile Include="Shapes\Drawing\TextOutlineDrawingShape.cs" />
+    <Compile Include="Shapes\Region\FreehandRegionShape.cs" />
+    <Compile Include="Shapes\ShapeManagerMenu.cs" />
+    <Compile Include="Shapes\TextDrawingOptions.cs" />
+    <Compile Include="Shapes\Drawing\TextDrawingShape.cs" />
+    <Compile Include="Shapes\Effect\BlurEffectShape.cs" />
+    <Compile Include="Shapes\Drawing\EllipseDrawingShape.cs" />
+    <Compile Include="Shapes\Effect\HighlightEffectShape.cs" />
+    <Compile Include="Shapes\Drawing\LineDrawingShape.cs" />
+    <Compile Include="Shapes\Effect\PixelateEffectShape.cs" />
+    <Compile Include="Shapes\Drawing\RectangleDrawingShape.cs" />
+    <Compile Include="Shapes\Effect\BaseEffectShape.cs" />
+    <Compile Include="Shapes\Region\EllipseRegionShape.cs" />
+    <Compile Include="Shapes\Region\RectangleRegionShape.cs" />
+    <Compile Include="Shapes\Region\BaseRegionShape.cs" />
+    <Compile Include="Screencast\FFmpegOptions.cs" />
+    <Compile Include="Forms\FFmpegOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FFmpegOptionsForm.Designer.cs">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screencast\ScreencastOptions.cs" />
+    <Compile Include="Forms\RegionCaptureLightForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screencast\ImageCache.cs" />
+    <Compile Include="RegionHelpers\LocationInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Shapes\ShapeManager.cs" />
+    <Compile Include="RegionHelpers\ImageEditorControl.cs" />
+    <Compile Include="Forms\RegionCaptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegionHelpers\InputManager.cs" />
+    <Compile Include="RegionHelpers\MouseState.cs" />
+    <Compile Include="RegionHelpers\ResizeNode.cs" />
+    <Compile Include="RegionCaptureTasks.cs" />
+    <Compile Include="ScrollingCaptureOptions.cs" />
+    <Compile Include="RegionHelpers\SimpleWindowInfo.cs" />
+    <Compile Include="RegionHelpers\SnapSize.cs" />
+    <Compile Include="RegionCaptureOptions.cs" />
+    <Compile Include="Screencast\ScreenRecorder.cs" />
+    <Compile Include="Screencast\HardDiskCache.cs" />
+    <Compile Include="Screenshot.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screenshot_Transparent.cs" />
+    <Compile Include="Animations\TextAnimation.cs" />
+    <Compile Include="RegionHelpers\WindowsList.cs" />
+    <Compile Include="RegionHelpers\WindowsRectangleList.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
+      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
+      <Name>ShareX.HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShareX.ImageEffectsLib\ShareX.ImageEffectsLib.csproj">
+      <Project>{d13441b6-96e1-4d1b-8a95-58a7d6cb1e24}</Project>
+      <Name>ShareX.ImageEffectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShareX.MediaLib\ShareX.MediaLib.csproj">
+      <Project>{1a190e53-1419-4cc2-b0e5-3bc7ea861c8b}</Project>
+      <Name>ShareX.MediaLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\openhand.cur" />
+    <None Include="Resources\edit-vertical-alignment-white.png" />
+    <None Include="Resources\edit-vertical-alignment-top-white.png" />
+    <None Include="Resources\edit-vertical-alignment-middle-white.png" />
+    <None Include="Resources\edit-underline-white.png" />
+    <None Include="Resources\edit-italic-white.png" />
+    <None Include="Resources\edit-bold-white.png" />
+    <None Include="Resources\edit-alignment-white.png" />
+    <None Include="Resources\edit-alignment-right-white.png" />
+    <None Include="Resources\edit-alignment-center-white.png" />
+    <None Include="Resources\edit-shade-white.png" />
+    <None Include="Resources\edit-outline-white.png" />
+    <None Include="Resources\layer-shape-line-white.png" />
+    <None Include="Resources\layer-shape-arrow-white.png" />
+    <None Include="Resources\layer-shade-white.png" />
+    <None Include="Resources\grid-white.png" />
+    <None Include="Resources\magnifier-zoom.png" />
+    <None Include="Resources\stamp-cursor.png" />
+    <None Include="Resources\smiley-yell.png" />
+    <None Include="Resources\smiley-cool.png" />
+    <None Include="Resources\gradient.png" />
+    <None Include="Resources\layout-center.png" />
+    <None Include="Resources\layout-split.png" />
+    <None Include="Resources\layout-split-vertical.png" />
+    <None Include="Resources\image-saturation.png" />
+    <None Include="Resources\image-select.png" />
+    <None Include="Resources\image-empty.png" />
+    <None Include="Resources\image--plus.png" />
+    <None Include="Resources\image-resize.png" />
+    <None Include="Resources\layer-flip.png" />
+    <None Include="Resources\layer-flip-vertical.png" />
+    <None Include="Resources\image--pencil.png" />
+    <None Include="Resources\image-resize-actual.png" />
+    <None Include="Resources\cursor.png" />
+    <None Include="Resources\monitor-image.png" />
+    <None Include="Resources\folder-open-image.png" />
+    <None Include="Resources\image-crop.png" />
+    <None Include="Resources\edit-shade.png" />
+    <None Include="Resources\edit-outline.png" />
+    <None Include="Resources\pencil.png" />
+    <None Include="Resources\wrench-screwdriver.png" />
+    <None Include="Resources\layers-stack-arrange.png" />
+    <None Include="Resources\layers-stack-arrange-back.png" />
+    <None Include="Resources\layers-arrange-back.png" />
+    <None Include="Resources\layers-arrange.png" />
+    <None Include="Resources\layer--minus.png" />
+    <None Include="Resources\layer.png" />
+    <None Include="Resources\test_32.png" />
+    <None Include="Resources\layers.png" />
+    <None Include="Resources\eraser.png" />
+    <None Include="Resources\ui-radio-button-uncheck.png" />
+    <None Include="Resources\layer--pencil.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\drive-globe.png" />
+    <None Include="Resources\disks-black.png" />
+    <None Include="Resources\disk-black.png" />
+    <None Include="Resources\tick.png" />
+    <None Include="Resources\layer-shape-polygon.png" />
+    <None Include="Resources\layer-shape-curve.png" />
+    <None Include="Resources\edit-vertical-alignment.png" />
+    <None Include="Resources\edit-vertical-alignment-top.png" />
+    <None Include="Resources\edit-alignment-right.png" />
+    <None Include="Resources\edit-alignment.png" />
+    <None Include="Resources\edit-vertical-alignment-middle.png" />
+    <None Include="Resources\edit-alignment-center.png" />
+    <None Include="Resources\edit-underline.png" />
+    <None Include="Resources\edit-italic.png" />
+    <None Include="Resources\edit-bold.png" />
+    <None Include="Resources\layer-shape-text.png" />
+    <None Include="Resources\gear.png" />
+    <None Include="Resources\layer_fullscreen.png" />
+    <None Include="Resources\layer-shade.png" />
+    <None Include="Resources\layer-shape-ellipse-region.png" />
+    <None Include="Resources\layer-shape-round-region.png" />
+    <None Include="Resources\layer-shape-region.png" />
+    <None Include="Resources\layer-shape-arrow.png" />
+    <None Include="Resources\grid.png" />
+    <None Include="Resources\highlighter-text.png" />
+    <None Include="Resources\monitor-window.png" />
+    <None Include="Resources\monitor.png" />
+    <None Include="Resources\layer-shape-line.png" />
+    <None Include="Resources\layer-shape-ellipse.png" />
+    <None Include="Resources\layer-shape-round.png" />
+    <None Include="Resources\layer-shape.png" />
+    <None Include="Resources\counter-reset.png" />
+    <None Include="Resources\balloon-box-left.png" />
+    <None Include="Resources\clipboard.png" />
+    <None Include="Resources\arrow-circle-225-left.png" />
+    <None Include="Resources\camera.png" />
+    <None Include="Resources\control.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\CircleNode.png" />
+    <None Include="Resources\arrow-circle-135-left.png" />
+    <None Include="Resources\arrow-circle.png" />
+    <None Include="Resources\arrow-circle-double.png" />
+    <None Include="Resources\closedhand.cur" />
+    <Content Include="Resources\Crosshair.cur" />
+    <None Include="Resources\exclamation-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.es-MX.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.fa-IR.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.fr.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.id-ID.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.ko-KR.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.ru.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.tr.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.uk.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.vi-VN.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.zh-CN.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CanvasSizeForm.zh-TW.resx">
+      <DependentUpon>CanvasSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.de.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.es-MX.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.fa-IR.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.fr.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.id-ID.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.ko-KR.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.ru.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.tr.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.uk.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.vi-VN.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.zh-CN.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditorStartupForm.zh-TW.resx">
+      <DependentUpon>EditorStartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.es-MX.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.fa-IR.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.id-ID.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.it-IT.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.uk.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.de.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.es-MX.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.fa-IR.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.fr.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.id-ID.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.ko-KR.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.ru.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.tr.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.uk.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.vi-VN.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.zh-CN.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageInsertForm.zh-TW.resx">
+      <DependentUpon>ImageInsertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.de.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.es-MX.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.fa-IR.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.fr.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.id-ID.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.tr.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.uk.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.vi-VN.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.zh-CN.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.zh-TW.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.de.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.es-MX.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.fa-IR.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.fr.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.id-ID.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.ko-KR.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.ko-KR.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImageSizeForm.ru.resx">
+      <DependentUpon>ImageSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.ru.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.tr.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.uk.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.vi-VN.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.zh-CN.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewImageForm.zh-TW.resx">
+      <DependentUpon>NewImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.de.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.es-MX.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.fa-IR.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.fr.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.id-ID.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.it-IT.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ko-KR.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.nl-NL.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.pt-BR.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.ru.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.tr.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.uk.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.vi-VN.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.zh-CN.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScrollingCaptureForm.zh-TW.resx">
+      <DependentUpon>ScrollingCaptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.es-MX.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.fa-IR.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.fr.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.ko-KR.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.ru.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.tr.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.uk.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.vi-VN.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.zh-CN.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerForm.zh-TW.resx">
+      <DependentUpon>StickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.es-MX.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.fa-IR.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.fr.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.ko-KR.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.ru.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.tr.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.uk.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.vi-VN.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.zh-CN.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StickerPackForm.zh-TW.resx">
+      <DependentUpon>StickerPackForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.de.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.es-MX.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.fa-IR.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.fr.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.id-ID.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.it-IT.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.ko-KR.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.pt-BR.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.ru.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.tr.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.uk.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.vi-VN.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.zh-CN.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextDrawingInputBox.zh-TW.resx">
+      <DependentUpon>TextDrawingInputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.es-MX.resx" />
+    <EmbeddedResource Include="Properties\Resources.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.fa-IR.resx" />
+    <EmbeddedResource Include="Properties\Resources.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.hu.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.id-ID.resx" />
+    <EmbeddedResource Include="Properties\Resources.it-IT.resx" />
+    <EmbeddedResource Include="Properties\Resources.ko-KR.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.nl-NL.resx" />
+    <EmbeddedResource Include="Properties\Resources.pt-BR.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru.resx" />
+    <EmbeddedResource Include="Properties\Resources.tr.resx" />
+    <EmbeddedResource Include="Properties\Resources.uk.resx" />
+    <EmbeddedResource Include="Properties\Resources.vi-VN.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx" />
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.de.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.es.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.fr.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.hu.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.ko-KR.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.nl-NL.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.pt-BR.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.ru.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.tr.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.vi-VN.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.zh-CN.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FFmpegOptionsForm.zh-TW.resx">
+      <DependentUpon>FFmpegOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ImageListView">
+      <Version>13.8.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
